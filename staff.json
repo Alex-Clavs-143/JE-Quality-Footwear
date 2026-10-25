@@ -1,0 +1,37 @@
+{
+  "staff": [
+    {
+      "employeeCode": 100,
+      "role": "Admin",
+      "salary": 850.00,
+      "id": "1710000001",
+      "name": "Angel Bonilla (Admin)",
+      "phoneNumber": "0991112223",
+      "email": "angel.bonilla@espe.edu.ec",
+      "username": "admin",
+      "password": "1234"
+    },
+    {
+      "employeeCode": 201,
+      "role": "Seller",
+      "salary": 460.00,
+      "id": "1720000002",
+      "name": "Henry Chalcualan",
+      "phoneNumber": "0993334445",
+      "email": "henry.chalcualan@espe.edu.ec",
+      "username": "henry",
+      "password": "1234"
+    },
+    {
+      "employeeCode": 202,
+      "role": "Seller",
+      "salary": 460.00,
+      "id": "1730000003",
+      "name": "David Clavon",
+      "phoneNumber": "0995556667",
+      "email": "david.clavon@espe.edu.ec",
+      "username": "david",
+      "password": "1234"
+    }
+  ]
+}

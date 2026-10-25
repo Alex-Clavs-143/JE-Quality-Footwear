@@ -1,0 +1,13 @@
+{
+  "customers": [
+    {
+      "customerCode": 1001,
+      "id": "1712345678",
+      "name": "Carlos Andrade",
+      "phoneNumber": "0987654321",
+      "email": "carlos.andrade@gmail.com",
+      "username": "cliente1",
+      "password": "1234"
+    }
+  ]
+}
