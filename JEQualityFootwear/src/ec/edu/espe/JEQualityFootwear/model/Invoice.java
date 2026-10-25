@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Invoice {
-    public static final float VAT_RATE = 0.15f; 
+    public static final float VAT_RATE = 0.15f;
     public static final String STORE_RUC = "1790012345001";
     public static final String STORE_NAME = "CALZADO JORGE ENRIQUEZ - JE QUALITY FOOTWEAR";
 
@@ -20,7 +20,7 @@ public class Invoice {
     private float totalAmount;
     private float cashTendered;
     private float changeDue;
-    private String issuanceChannel; 
+    private String issuanceChannel;
 
     public Invoice(String invoiceNumber, Date date, Customer customer, Seller seller,
                    List<Product> purchasedItems, List<Integer> quantities, String issuanceChannel) {
@@ -47,46 +47,42 @@ public class Invoice {
     }
 
     public String getDetails() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n======================================================================\n");
-        sb.append("           ").append(STORE_NAME).append("\n");
-        sb.append("                     RUC: ").append(STORE_RUC).append("\n");
-        sb.append("======================================================================\n");
-        sb.append("FACTURA Nro      : ").append(invoiceNumber).append("\n");
-        sb.append("Fecha de Emision : ").append(sdf.format(date)).append("\n");
-        sb.append("Canal de Entrega : ").append(issuanceChannel).append("\n");
-        sb.append("----------------------------------------------------------------------\n");
-        sb.append("DATOS DEL CLIENTE:\n");
-        sb.append("  Nombre         : ").append(customer.getName()).append("\n");
-        sb.append("  Cedula / RUC   : ").append(customer.getId()).append("\n");
-        sb.append("  Correo         : ").append(customer.getEmail()).append("\n");
-        sb.append("----------------------------------------------------------------------\n");
-        sb.append("ATENDIDO POR:\n");
-        sb.append("  Vendedor       : ").append(seller.getName())
-          .append(" (Cod. Empleado: ").append(seller.getEmployeeCode()).append(")\n");
-        sb.append("----------------------------------------------------------------------\n");
-        sb.append(String.format("%-8s %-24s %-6s %-10s %-5s %-9s %-9s\n",
-                "CODIGO", "MODELO", "TALLA", "COLOR", "CANT", "P.UNIT", "SUBTOTAL"));
-        sb.append("----------------------------------------------------------------------\n");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String details = "\n======================================================================\n"
+                + "           " + STORE_NAME + "\n"
+                + "                     RUC: " + STORE_RUC + "\n"
+                + "======================================================================\n"
+                + "FACTURA Nro      : " + invoiceNumber + "\n"
+                + "Fecha de Emision : " + dateFormat.format(date) + "\n"
+                + "Canal de Entrega : " + issuanceChannel + "\n"
+                + "----------------------------------------------------------------------\n"
+                + "DATOS DEL CLIENTE:\n"
+                + "  Nombre         : " + customer.getName() + "\n"
+                + "  Cedula / RUC   : " + customer.getId() + "\n"
+                + "  Correo         : " + customer.getEmail() + "\n"
+                + "----------------------------------------------------------------------\n"
+                + "ATENDIDO POR:\n"
+                + "  Vendedor       : " + seller.getName() + " (Cod. Empleado: " + seller.getEmployeeCode() + ")\n"
+                + "----------------------------------------------------------------------\n"
+                + "CODIGO | MODELO | TALLA | COLOR | CANT | P.UNIT | SUBTOTAL\n"
+                + "----------------------------------------------------------------------\n";
+
         for (int i = 0; i < purchasedItems.size(); i++) {
-            Product p = purchasedItems.get(i);
-            int qty = quantities.get(i);
-            float lineSubtotal = p.getPrice() * qty;
-            sb.append(String.format("%-8s %-24s %-6d %-10s %-5d ",
-                    p.getProductId(), p.getName(), p.getSize(), p.getColor(), qty));
-            sb.append(String.format("$%-8.2f ", p.getPrice()));
-            sb.append(String.format("$%-8.2f\n", lineSubtotal));
+            Product product = purchasedItems.get(i);
+            int quantity = quantities.get(i);
+            float lineSubtotal = product.getPrice() * quantity;
+            details = details + product.getProductId() + " | " + product.getName() + " | " + product.getSize() + " | "
+                    + product.getColor() + " | " + quantity + " | $" + product.getPrice() + " | $" + lineSubtotal + "\n";
         }
-        
-        sb.append("----------------------------------------------------------------------\n");
-        sb.append(String.format("SUBTOTAL SIN IMPUESTOS : $%8.2f USD\n", subtotal));
-        sb.append(String.format("IVA (15%%)              : $%8.2f USD\n", vatAmount));
-        sb.append(String.format("TOTAL A PAGAR          : $%8.2f USD\n", totalAmount));
-        sb.append(String.format("EFECTIVO RECIBIDO      : $%8.2f USD\n", cashTendered));
-        sb.append(String.format("VUELTO ENTREGADO       : $%8.2f USD\n", changeDue));
-        sb.append("======================================================================\n");
-        return sb.toString();
+
+        details = details + "----------------------------------------------------------------------\n"
+                + "SUBTOTAL SIN IMPUESTOS : $" + subtotal + " USD\n"
+                + "IVA (15%)              : $" + vatAmount + " USD\n"
+                + "TOTAL A PAGAR          : $" + totalAmount + " USD\n"
+                + "EFECTIVO RECIBIDO      : $" + cashTendered + " USD\n"
+                + "VUELTO ENTREGADO       : $" + changeDue + " USD\n"
+                + "======================================================================\n";
+        return details;
     }
 
     public String getInvoiceNumber() {
@@ -175,11 +171,11 @@ public class Invoice {
 
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        return "Factura[" + invoiceNumber + " | Fecha: " + sdf.format(date) +
-               " | Cliente: " + customer.getName() +
-               " | Vendedor: " + seller.getName() + " (ID:" + seller.getEmployeeCode() + ")" +
-               " | Total: $" + String.format("%.2f", totalAmount) +
-               " | Canal: " + issuanceChannel + "]";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        return "Factura[" + invoiceNumber + " | Fecha: " + dateFormat.format(date)
+                + " | Cliente: " + customer.getName()
+                + " | Vendedor: " + seller.getName() + " (ID:" + seller.getEmployeeCode() + ")"
+                + " | Total: $" + totalAmount
+                + " | Canal: " + issuanceChannel + "]";
     }
 }

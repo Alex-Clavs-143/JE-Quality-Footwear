@@ -43,8 +43,8 @@ public class JEQualityFootwearSystem {
             System.out.println("  -> Cliente       : usuario = cliente1 | clave = 1234");
             System.out.println("----------------------------------------------------------------------");
             System.out.println("1. Iniciar Sesion (Administrador / Vendedor / Cliente)");
-            System.out.println("2. Crear Cuenta de Usuario / Cliente Independientemente (US003)");
-            System.out.println("3. Ver Calendario de Promociones y Estado de Tienda en Vivo (US008)");
+            System.out.println("2. Crear Cuenta de Usuario / Cliente Independientemente");
+            System.out.println("3. Ver Calendario de Promociones y Estado de Tienda en Vivo");
             System.out.println("0. Salir del Sistema");
             System.out.print("Seleccione una opcion: ");
 
@@ -97,17 +97,17 @@ public class JEQualityFootwearSystem {
         boolean logout = false;
         while (!logout) {
             System.out.println("\n================ PANEL DE ADMINISTRADOR (" + admin.getName() + ") ================");
-            System.out.println("1.  [Inventario - US001] Ver catalogo completo y buscar producto");
-            System.out.println("2.  [Inventario - US001] Agregar nuevo modelo de calzado/accesorio");
-            System.out.println("3.  [Inventario - US001] Editar producto existente (precio, nombre, stock)");
-            System.out.println("4.  [Inventario - US001] Eliminar producto descontinuado");
-            System.out.println("5.  [Auditoria  - RF-03] Realizar auditoria fisica de stock");
-            System.out.println("6.  [Personal   - US002] Gestionar empleados (Listar, Agregar, Editar, Eliminar)");
-            System.out.println("7.  [Usuarios   - US003] Gestionar usuarios/clientes (Ver cuentas, cambiar contrasenas o datos)");
-            System.out.println("8.  [Nomina     - US007] Consultar rol de pagos y comisiones de vendedores");
-            System.out.println("9.  [Reportes   - US005] Ver Registro de Ventas, Caja y Productos Mas Vendidos");
-            System.out.println("10. [Calendario - US008] Agregar nueva fecha de promocion/oferta");
-            System.out.println("0.  Cerrar sesion (US003)");
+            System.out.println("1.  Ver catalogo completo y buscar producto");
+            System.out.println("2.  Agregar nuevo modelo de calzado/accesorio");
+            System.out.println("3.  Editar producto existente (precio, nombre, stock)");
+            System.out.println("4.  Eliminar producto descontinuado");
+            System.out.println("5.  Realizar auditoria fisica de stock");
+            System.out.println("6.  Gestionar empleados (Listar, Agregar, Editar, Eliminar)");
+            System.out.println("7.  Gestionar usuarios/clientes (Ver cuentas, cambiar contrasenas o datos)");
+            System.out.println("8.  Consultar rol de pagos y comisiones de vendedores");
+            System.out.println("9.  Ver Registro de Ventas, Caja y Productos Mas Vendidos");
+            System.out.println("10. Agregar nueva fecha de promocion/oferta");
+            System.out.println("0.  Cerrar sesion");
             System.out.print("Seleccione una opcion: ");
 
             int option = readInt();
@@ -156,10 +156,10 @@ public class JEQualityFootwearSystem {
         boolean logout = false;
         while (!logout) {
             System.out.println("\n================ PANEL DE VENDEDOR / CAJA (" + seller.getName() + ") ================");
-            System.out.println("1. [Catalogo - US004] Ver catalogo y filtrar por Hombres, Mujeres, Ninos, Accesorios");
-            System.out.println("2. [Mostrador - US005/US006/US009] Registrar nueva Venta, Cobro en Efectivo y Factura");
-            System.out.println("3. [Desempeno - US007] Ver mis ventas realizadas y mis comisiones acumuladas");
-            System.out.println("0. Cerrar sesion (US003)");
+            System.out.println("1. Ver catalogo y filtrar por Hombres, Mujeres, Ninos, Accesorios");
+            System.out.println("2. Registrar nueva Venta, Cobro en Efectivo y Factura");
+            System.out.println("3. Ver mis ventas realizadas y mis comisiones acumuladas");
+            System.out.println("0. Cerrar sesion)");
             System.out.print("Seleccione una opcion: ");
 
             int option = readInt();
@@ -187,12 +187,12 @@ public class JEQualityFootwearSystem {
         boolean logout = false;
         while (!logout) {
             System.out.println("\n================ PANEL DE CLIENTE (" + customer.getName() + ") ================");
-            System.out.println("1. [Catalogo   - US004] Explorar todos los zapatos y accesorios disponibles");
-            System.out.println("2. [Filtros    - US004] Filtrar catalogo por: Hombres, Mujeres, Ninos, Accesorios");
-            System.out.println("3. [Calendario - US008] Ver dias de ofertas especiales y estado de la tienda");
-            System.out.println("4. [Facturas   - RF-07] Ver mi historial de compras y facturas emitidas");
-            System.out.println("5. [Cuenta     - US003] Eliminar mi cuenta de usuario permanentemente");
-            System.out.println("0. Cerrar sesion (US003)");
+            System.out.println("1. Explorar todos los zapatos y accesorios disponibles");
+            System.out.println("2. Filtrar catalogo por: Hombres, Mujeres, Ninos, Accesorios");
+            System.out.println("3. Ver dias de ofertas especiales y estado de la tienda");
+            System.out.println("4. Ver mi historial de compras y facturas emitidas");
+            System.out.println("5. Eliminar mi cuenta de usuario permanentemente");
+            System.out.println("0. Cerrar sesion");
             System.out.print("Seleccione una opcion: ");
 
             int option = readInt();
@@ -257,7 +257,7 @@ public class JEQualityFootwearSystem {
     }
 
     private static void filterCatalogMenu() {
-        System.out.println("\n--- FILTRAR CATALOGO POR CATEGORIA (US004 / RF-02) ---");
+        System.out.println("\n--- FILTRAR CATALOGO POR CATEGORIA ---");
         System.out.println("1. Hombres");
         System.out.println("2. Mujeres");
         System.out.println("3. Ninos");
@@ -292,7 +292,7 @@ public class JEQualityFootwearSystem {
     }
 
     private static void addProductMenu() {
-        System.out.println("\n--- REGISTRAR NUEVO PRODUCTO EN INVENTARIO (US001 / RF-01) ---");
+        System.out.println("\n--- REGISTRAR NUEVO PRODUCTO EN INVENTARIO  ---");
         System.out.print("Codigo del producto (ej. ZAP-007): ");
         String code = scanner.nextLine().trim().toUpperCase();
         if (inventory.findProduct(code) != null) {
@@ -361,7 +361,7 @@ public class JEQualityFootwearSystem {
     }
 
     private static void auditInventoryMenu() {
-        System.out.println("\n--- AUDITORIA FISICA DE INVENTARIO (RF-03) ---");
+        System.out.println("\n--- AUDITORIA FISICA DE INVENTARIO ---");
         printProductList(inventory.getProducts());
         System.out.print("Ingrese el codigo del producto contado fisicamente en percha: ");
         String code = scanner.nextLine().trim();
@@ -382,7 +382,7 @@ public class JEQualityFootwearSystem {
     }
 
     private static void manageStaffMenu(Admin admin) {
-        System.out.println("\n--- GESTION DE PERSONAL DE LA TIENDA (US002 / RF-05) ---");
+        System.out.println("\n--- GESTION DE PERSONAL DE LA TIENDA ---");
         System.out.println("1. Listar todos los empleados");
         System.out.println("2. Agregar nuevo empleado (Vendedor o Administrador)");
         System.out.println("3. Editar sueldo base, telefono o contrasena de un empleado");
@@ -592,7 +592,7 @@ public class JEQualityFootwearSystem {
     }
 
     private static void processCounterSaleMenu(Seller seller) {
-        System.out.println("\n================ NUEVA VENTA EN MOSTRADOR (POS) ================");
+        System.out.println("\n================ NUEVA VENTA ================");
         System.out.println("Vendedor en turno: " + seller.getName() + " (Codigo: " + seller.getEmployeeCode() + ")");
 
         String customerId = readValidIdOrTaxId("Ingrese la Cedula (10 digitos) o RUC (13 digitos) del cliente: ");
@@ -632,7 +632,7 @@ public class JEQualityFootwearSystem {
             }
 
             if (inventory.checkStock(selectedProduct) <= 0) {
-                System.out.println("[BLOQUEADO - RF-08] El modelo '" + selectedProduct.getName() + "' tiene 0 pares en stock. No se puede vender.");
+                System.out.println("[BLOQUEADO] El modelo '" + selectedProduct.getName() + "' tiene 0 pares en stock. No se puede vender.");
                 continue;
             }
 
@@ -645,7 +645,7 @@ public class JEQualityFootwearSystem {
             }
 
             if (quantity > selectedProduct.getCurrentStock()) {
-                System.out.println("[ALERTA DE STOCK - RF-08] Stock insuficiente. Solo existen " + selectedProduct.getCurrentStock() + " unidades disponibles.");
+                System.out.println("[ALERTA DE STOCK] Stock insuficiente. Solo existen " + selectedProduct.getCurrentStock() + " unidades disponibles.");
                 continue;
             }
 
@@ -689,7 +689,7 @@ public class JEQualityFootwearSystem {
 
         System.out.println("\n>>> [CAJA REGISTRADORA] VUELTO EXACTO A ENTREGAR AL CLIENTE: $" + payment.getChangeGiven() + " USD <<<");
 
-        System.out.println("\nComo prefiere recibir su factura el cliente? (US009 / RF-10):");
+        System.out.println("\nComo prefiere recibir su factura el cliente?:");
         System.out.println("1. Factura Fisica (Impresa en papel en mostrador)");
         System.out.println("2. Factura Electronica (Archivo digital PDF enviado al correo)");
         System.out.println("3. Ambas (Impresa en mostrador + Electronica PDF al correo)");
@@ -715,11 +715,11 @@ public class JEQualityFootwearSystem {
 
         System.out.println(salesManagement.generateReceipt(generatedInvoice));
         float earnedCommission = subtotal * salesManagement.getCommission();
-        System.out.println("[COMISION GENERADA - US007] El vendedor " + seller.getName() + " gano +$" + earnedCommission + " USD de comision en esta venta.");
+        System.out.println("[COMISION GENERADA] El vendedor " + seller.getName() + " gano +$" + earnedCommission + " USD de comision en esta venta.");
     }
 
     private static void displayPayrollAndCommissions() {
-        System.out.println("\n================ ROL DE PAGOS Y COMISIONES MENSUALES (US007 / RF-11) ================");
+        System.out.println("\n================ ROL DE PAGOS Y COMISIONES MENSUALES ================");
         System.out.println("Porcentaje de comision vigente sobre ventas: " + (salesManagement.getCommission() * 100) + "%");
         System.out.println("-------------------------------------------------------------------------------------");
         for (StaffMember staff : salesManagement.getStaffList()) {
@@ -734,7 +734,7 @@ public class JEQualityFootwearSystem {
     }
 
     private static void displaySalesAndBestSellersReport() {
-        System.out.println("\n================ REGISTRO HISTORICO DE VENTAS Y CAJA (US005) ================");
+        System.out.println("\n================ REGISTRO HISTORICO DE VENTAS Y CAJA ================");
         System.out.println("Saldo Contable Actual en Caja Registradora: $" + salesManagement.getCashRegisterBalance() + " USD");
         if (salesManagement.getSalesRegistry().isEmpty()) {
             System.out.println("Aun no se han registrado ventas en esta sesion.");
@@ -744,7 +744,7 @@ public class JEQualityFootwearSystem {
             }
         }
 
-        System.out.println("\n================ REPORTE DE PRODUCTOS MAS VENDIDOS (RF-04) ================");
+        System.out.println("\n================ REPORTE DE PRODUCTOS MAS VENDIDOS ================");
         List<Product> ranking = inventory.getBestSellingProducts();
         int position = 1;
         for (Product product : ranking) {
@@ -754,14 +754,14 @@ public class JEQualityFootwearSystem {
     }
 
     private static void displaySellerPerformance(Seller seller) {
-        System.out.println("\n--- MI DESEMPENO Y COMPENSACION MENSUAL (US007 / RF-11) ---");
+        System.out.println("\n--- MI DESEMPENO Y COMPENSACION MENSUAL ---");
         System.out.println("Vendedor                 : " + seller.getName() + " (ID: " + seller.getEmployeeCode() + ")");
         System.out.println("Ventas Cerradas          : " + seller.getCompletedSalesCount());
         System.out.println("Sueldo Base Mensual      : $" + seller.getSalary() + " USD");
         System.out.println("Comisiones Acumuladas    : $" + seller.getAccumulatedCommission() + " USD");
         System.out.println("SUELDO NETO A RECIBIR    : $" + seller.calculateSalary() + " USD");
 
-        System.out.println("\n--- MIS VENTAS REGISTRADAS (US005) ---");
+        System.out.println("\n--- MIS VENTAS REGISTRADAS ---");
         boolean hasSales = false;
         for (Invoice invoice : salesManagement.getSalesRegistry()) {
             if (invoice.getSeller().getEmployeeCode() == seller.getEmployeeCode()) {
@@ -786,7 +786,7 @@ public class JEQualityFootwearSystem {
     }
 
     private static void addPromotionMenu() {
-        System.out.println("\n--- AGREGAR PROMOCION AL CALENDARIO DE LA TIENDA (US008 / RF-12) ---");
+        System.out.println("\n--- AGREGAR PROMOCION AL CALENDARIO DE LA TIENDA ---");
         System.out.print("Rango de fechas (ej. 01 al 15 de Noviembre): ");
         String dates = scanner.nextLine().trim();
         System.out.print("Descripcion de la oferta (ej. 20% de descuento en calzado formal): ");
@@ -798,7 +798,7 @@ public class JEQualityFootwearSystem {
     }
 
     private static void registerNewCustomerSelfService() {
-        System.out.println("\n--- REGISTRO INDEPENDIENTE DE CUENTA DE USUARIO / CLIENTE (US003 / RF-07) ---");
+        System.out.println("\n--- REGISTRO INDEPENDIENTE DE CUENTA DE USUARIO / CLIENTE ---");
         String id = readValidIdOrTaxId("Cedula (10 digitos) o RUC (13 digitos): ");
         if (salesManagement.findPersonByIdOrUsername(id) != null) {
             System.out.println("[ERROR] Ya existe un usuario registrado con esa Cedula/RUC.");

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class SalesManagement {
     private int systemId;
-    private float commission; 
+    private float commission;
     private float sellerSalary;
     private float cashRegisterBalance;
     private int invoiceSequence;
@@ -18,35 +18,31 @@ public class SalesManagement {
         this.systemId = systemId;
         this.commission = commission;
         this.sellerSalary = sellerSalary;
-        this.cashRegisterBalance = 200.00f; 
+        this.cashRegisterBalance = 200.00f;
         this.invoiceSequence = 1;
         this.salesRegistry = new ArrayList<>();
         this.staffList = new ArrayList<>();
         this.customerDirectory = new ArrayList<>();
     }
 
-    public Invoice registerSale(Customer customer, Seller seller, List<Product> carrito,
+    public Invoice registerSale(Customer customer, Seller seller, List<Product> shoppingCart,
                                 List<Integer> quantities, int systemId, Payment payment, String issuanceChannel) {
-        String seqNumber = String.format("001-001-%06d", invoiceSequence++);
-        Invoice invoice = new Invoice(seqNumber, new Date(), customer, seller, carrito, quantities, issuanceChannel);
+        String sequenceNumber = "001-001-00000" + (invoiceSequence++);
+        Invoice invoice = new Invoice(sequenceNumber, new Date(), customer, seller, shoppingCart, quantities, issuanceChannel);
         invoice.setCashTendered(payment.getAmountReceived());
         invoice.setChangeDue(payment.getChangeGiven());
 
-
-        for (int i = 0; i < carrito.size(); i++) {
-            Product product = carrito.get(i);
-            int qty = quantities.get(i);
-            product.updateStock(-qty);
+        for (int i = 0; i < shoppingCart.size(); i++) {
+            Product product = shoppingCart.get(i);
+            int quantity = quantities.get(i);
+            product.updateStock(-quantity);
         }
-
 
         this.cashRegisterBalance += invoice.getTotalAmount();
 
-   
         float earnedCommission = invoice.getSubtotal() * this.commission;
         seller.addCommission(earnedCommission);
         seller.sell();
-
 
         customer.getInvoice(invoice);
         this.salesRegistry.add(invoice);
@@ -64,25 +60,23 @@ public class SalesManagement {
         if (invoice == null) {
             return "[ERROR] No se pudo generar el comprobante.";
         }
-        StringBuilder receipt = new StringBuilder(invoice.getDetails());
+        String receipt = invoice.getDetails();
         if (invoice.getIssuanceChannel().contains("FISICA")) {
-            receipt.append("[SIMULACION IMPRESORA POS] -> Imprimiendo comprobante fisico en papel termico...\n");
-            receipt.append("[SIMULACION IMPRESORA POS] -> Factura fisica entregada al cliente en mostrador.\n");
+            receipt = receipt + "[SIMULACION IMPRESORA POS] -> Imprimiendo comprobante fisico en papel termico...\n"
+                    + "[SIMULACION IMPRESORA POS] -> Factura fisica entregada al cliente en mostrador.\n";
         }
         if (invoice.getIssuanceChannel().contains("ELECTRONICA")) {
-            receipt.append("[SIMULACION SERVIDOR SMTP / PDF] -> Generando archivo digital ")
-                   .append(invoice.getInvoiceNumber()).append(".pdf...\n");
-            receipt.append("[SIMULACION SERVIDOR SMTP / PDF] -> Factura electronica enviada exitosamente a: ")
-                   .append(invoice.getCustomer().getEmail()).append("\n");
+            receipt = receipt + "[SIMULACION SERVIDOR SMTP / PDF] -> Generando archivo digital " + invoice.getInvoiceNumber() + ".pdf...\n"
+                    + "[SIMULACION SERVIDOR SMTP / PDF] -> Factura electronica enviada exitosamente a: " + invoice.getCustomer().getEmail() + "\n";
         }
-        return receipt.toString();
+        return receipt;
     }
 
     public void addCommissionToSeller() {
         for (StaffMember staff : staffList) {
             if (staff instanceof Seller) {
-                Seller s = (Seller) staff;
-                this.sellerSalary = s.calculateSalary();
+                Seller seller = (Seller) staff;
+                this.sellerSalary = seller.calculateSalary();
             }
         }
     }
@@ -139,10 +133,10 @@ public class SalesManagement {
         return false;
     }
 
-    public Customer findCustomerById(String cedulaOrRuc) {
-        for (Customer c : customerDirectory) {
-            if (c.getId().equalsIgnoreCase(cedulaOrRuc)) {
-                return c;
+    public Customer findCustomerById(String nationalIdOrTaxId) {
+        for (Customer customer : customerDirectory) {
+            if (customer.getId().equalsIgnoreCase(nationalIdOrTaxId)) {
+                return customer;
             }
         }
         return null;
@@ -190,9 +184,6 @@ public class SalesManagement {
 
     @Override
     public String toString() {
-        return "SalesManagement{" + "systemId=" + systemId +
-               ", comisionPorcentaje=" + (commission * 100) + "%" +
-               ", ventasRegistradas=" + salesRegistry.size() +
-               ", saldoEnCaja=$" + String.format("%.2f", cashRegisterBalance) + '}';
+        return "SalesManagement{systemId=" + systemId + ", comisionPorcentaje=" + (commission * 100) + "%, ventasRegistradas=" + salesRegistry.size() + ", saldoEnCaja=$" + cashRegisterBalance + "}";
     }
 }

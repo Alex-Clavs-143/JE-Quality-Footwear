@@ -32,7 +32,6 @@ public class StaffMember extends Person {
 
     @Override
     public String toString() {
-        return "StaffMember{" + "employeeCode=" + employeeCode + ", baseSalary=$" + String.format("%.2f", salary) +
-               ", " + super.getInfo() + '}';
+        return "StaffMember{employeeCode=" + employeeCode + ", baseSalary=$" + salary + ", " + super.getInfo() + "}";
     }
 }

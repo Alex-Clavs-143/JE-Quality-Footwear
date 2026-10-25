@@ -55,8 +55,6 @@ public class Payment {
 
     @Override
     public String toString() {
-        return "Payment{" + "total=$" + String.format("%.2f", totalAmount) +
-               ", efectivoRecibido=$" + String.format("%.2f", amountReceived) +
-               ", vueltoEntregado=$" + String.format("%.2f", changeGiven) + '}';
+        return "Payment{total=$" + totalAmount + ", efectivoRecibido=$" + amountReceived + ", vueltoEntregado=$" + changeGiven + "}";
     }
 }

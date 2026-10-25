@@ -1,7 +1,7 @@
 package ec.edu.espe.JEQualityFootwear.model;
 
 public class Person {
-    private String id; 
+    private String id;
     private String name;
     private String phoneNumber;
     private String email;
@@ -71,7 +71,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" + "id='" + id + "', name='" + name + "', phoneNumber='" + phoneNumber +
-               "', email='" + email + "', username='" + username + "'}";
+        return "Person{id='" + id + "', name='" + name + "', phoneNumber='" + phoneNumber + "', email='" + email + "', username='" + username + "'}";
     }
 }

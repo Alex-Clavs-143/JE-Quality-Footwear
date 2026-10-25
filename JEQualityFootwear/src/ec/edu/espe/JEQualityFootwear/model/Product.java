@@ -102,8 +102,8 @@ public class Product {
 
     @Override
     public String toString() {
-        return String.format("[%s] %-26s | Cat: %-22s | Talla: %2d | Color: %-10s | Precio: $%6.2f | Stock: %3d | Vendidos: %2d",
-                productId, name, (category != null ? category.toString() : "Sin Categoria"),
-                size, color, price, currentStock, unitsSold);
+        return "[" + productId + "] " + name + " | Cat: " + (category != null ? category.toString() : "Sin Categoria")
+                + " | Talla: " + size + " | Color: " + color + " | Precio: $" + price
+                + " | Stock: " + currentStock + " | Vendidos: " + unitsSold;
     }
 }

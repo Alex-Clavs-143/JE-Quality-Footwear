@@ -43,10 +43,10 @@ public class Seller extends StaffMember {
 
     @Override
     public String toString() {
-        return "Seller{" + "employeeCode=" + getEmployeeCode() + ", nombre='" + getName() +
-               "', sueldoBase=$" + String.format("%.2f", getSalary()) +
-               ", comisiones=$" + String.format("%.2f", accumulatedCommission) +
-               ", sueldoTotal=$" + String.format("%.2f", calculateSalary()) +
-               ", ventasRealizadas=" + completedSalesCount + '}';
+        return "Seller{employeeCode=" + getEmployeeCode() + ", nombre='" + getName()
+                + "', sueldoBase=$" + getSalary()
+                + ", comisiones=$" + accumulatedCommission
+                + ", sueldoTotal=$" + calculateSalary()
+                + ", ventasRealizadas=" + completedSalesCount + "}";
     }
 }
