@@ -37,7 +37,6 @@ public class Customer extends Person {
 
     @Override
     public String toString() {
-        return "Customer{" + "customerCode=" + customerCode + ", " + super.getInfo() +
-               ", comprasRealizadas=" + purchaseHistory.size() + '}';
+        return "Customer{customerCode=" + customerCode + ", " + super.getInfo() + ", comprasRealizadas=" + purchaseHistory.size() + "}";
     }
 }

@@ -69,7 +69,6 @@ public class JEQualityFootwearSystem {
         }
     }
 
-    // ==================== LOGIN Y ENRUTAMIENTO POR ROL (RF-06) ====================
     private static void handleLogin() {
         System.out.println("\n--- INICIO DE SESION ---");
         System.out.print("Usuario: ");
@@ -94,7 +93,6 @@ public class JEQualityFootwearSystem {
         }
     }
 
-    // ==================== MENU ADMINISTRADOR ====================
     private static void showAdminMenu(Admin admin) {
         boolean logout = false;
         while (!logout) {
@@ -154,7 +152,6 @@ public class JEQualityFootwearSystem {
         }
     }
 
-    // ==================== MENU VENDEDOR / CAJERO ====================
     private static void showSellerMenu(Seller seller) {
         boolean logout = false;
         while (!logout) {
@@ -186,7 +183,6 @@ public class JEQualityFootwearSystem {
         }
     }
 
-    // ==================== MENU CLIENTE / COMPRADOR ====================
     private static void showCustomerMenu(Customer customer) {
         boolean logout = false;
         while (!logout) {
@@ -232,16 +228,15 @@ public class JEQualityFootwearSystem {
         }
     }
 
-    // ==================== FUNCIONES DE INVENTARIO Y CATALOGO ====================
-    private static void printProductList(List<Product> list) {
+    private static void printProductList(List<Product> productList) {
         System.out.println("\n-------------------------------------------------------------------------------------------------------------");
         System.out.println("                                   CATALOGO DE PRODUCTOS - CALZADO JORGE ENRIQUEZ                            ");
         System.out.println("-------------------------------------------------------------------------------------------------------------");
-        if (list.isEmpty()) {
+        if (productList.isEmpty()) {
             System.out.println("No se encontraron productos registrados para este criterio.");
         } else {
-            for (Product p : list) {
-                System.out.println(p.toString());
+            for (Product product : productList) {
+                System.out.println(product.toString());
             }
         }
         System.out.println("-------------------------------------------------------------------------------------------------------------");
@@ -252,9 +247,9 @@ public class JEQualityFootwearSystem {
         System.out.print("Desea buscar un producto especifico por su codigo? (Ingrese el codigo o presione Enter para volver): ");
         String code = scanner.nextLine().trim();
         if (!code.isEmpty()) {
-            Product found = inventory.findProduct(code);
-            if (found != null) {
-                System.out.println("[PRODUCTO ENCONTRADO]: " + found);
+            Product foundProduct = inventory.findProduct(code);
+            if (foundProduct != null) {
+                System.out.println("[PRODUCTO ENCONTRADO]: " + foundProduct.toString());
             } else {
                 System.out.println("[!] No existe ningun producto con el codigo: " + code);
             }
@@ -273,10 +268,18 @@ public class JEQualityFootwearSystem {
         int choice = readInt();
         String section = "";
         switch (choice) {
-            case 1: section = "Hombres"; break;
-            case 2: section = "Mujeres"; break;
-            case 3: section = "Ninos"; break;
-            case 4: section = "Accesorios"; break;
+            case 1:
+                section = "Hombres";
+                break;
+            case 2:
+                section = "Mujeres";
+                break;
+            case 3:
+                section = "Ninos";
+                break;
+            case 4:
+                section = "Accesorios";
+                break;
             case 5:
                 printProductList(inventory.getProducts());
                 return;
@@ -284,8 +287,8 @@ public class JEQualityFootwearSystem {
                 System.out.println("[!] Opcion invalida.");
                 return;
         }
-        List<Product> filtered = inventory.filterBySection(section);
-        printProductList(filtered);
+        List<Product> filteredProducts = inventory.filterBySection(section);
+        printProductList(filteredProducts);
     }
 
     private static void addProductMenu() {
@@ -301,7 +304,7 @@ public class JEQualityFootwearSystem {
         System.out.print("Seccion (Hombres / Mujeres / Ninos / Accesorios): ");
         String gender = scanner.nextLine().trim();
         System.out.print("Subcategoria (Formal / Deportivo / Botas / Casual / Cuero): ");
-        String subCat = scanner.nextLine().trim();
+        String subCategory = scanner.nextLine().trim();
         System.out.print("Color: ");
         String color = scanner.nextLine().trim();
         System.out.print("Talla (numero entero, ej. 40, o 0 si es accesorio): ");
@@ -311,11 +314,11 @@ public class JEQualityFootwearSystem {
         System.out.print("Stock inicial disponible (pares/unidades): ");
         int stock = readInt();
 
-        Category category = new Category(subCat, gender);
+        Category category = new Category(subCategory, gender);
         Product newProduct = new Product(code, name, price, stock, category, color, size);
         inventory.addProduct(newProduct);
         System.out.println("[OK] Producto registrado exitosamente en el catalogo:");
-        System.out.println(newProduct);
+        System.out.println(newProduct.toString());
     }
 
     private static void editProductMenu() {
@@ -327,7 +330,7 @@ public class JEQualityFootwearSystem {
             System.out.println("[!] Producto no encontrado.");
             return;
         }
-        System.out.println("Editando: " + product);
+        System.out.println("Editando: " + product.toString());
         System.out.print("Nuevo nombre (Enter para mantener '" + product.getName() + "'): ");
         String newName = scanner.nextLine().trim();
         if (!newName.isEmpty()) {
@@ -343,7 +346,7 @@ public class JEQualityFootwearSystem {
         if (newStock >= 0) {
             product.setCurrentStock(newStock);
         }
-        System.out.println("[OK] Producto actualizado correctamente: " + product);
+        System.out.println("[OK] Producto actualizado correctamente: " + product.toString());
     }
 
     private static void deleteProductMenu() {
@@ -378,7 +381,6 @@ public class JEQualityFootwearSystem {
         }
     }
 
-    // ==================== GESTION DE EMPLEADOS (US002 / RF-05) ====================
     private static void manageStaffMenu(Admin admin) {
         System.out.println("\n--- GESTION DE PERSONAL DE LA TIENDA (US002 / RF-05) ---");
         System.out.println("1. Listar todos los empleados");
@@ -392,17 +394,17 @@ public class JEQualityFootwearSystem {
             case 1:
                 System.out.println("\n--- NOMINA ACTIVA DE EMPLEADOS ---");
                 for (StaffMember staff : salesManagement.getStaffList()) {
-                    System.out.println("  " + staff + " | Usuario: " + staff.getUsername());
+                    System.out.println("  " + staff.toString() + " | Usuario: " + staff.getUsername());
                 }
                 break;
             case 2:
                 System.out.print("Codigo numerico de empleado (ej. 205): ");
-                int empCode = readInt();
-                if (salesManagement.findStaffByCode(empCode) != null) {
+                int employeeCode = readInt();
+                if (salesManagement.findStaffByCode(employeeCode) != null) {
                     System.out.println("[ERROR] Ese codigo de empleado ya esta asignado.");
                     return;
                 }
-                String id = readValidCedulaOrRuc("Cedula (10 digitos) o RUC (13 digitos) del empleado: ");
+                String id = readValidIdOrTaxId("Cedula (10 digitos) o RUC (13 digitos) del empleado: ");
                 if (salesManagement.findPersonByIdOrUsername(id) != null) {
                     System.out.println("[ERROR] Ya existe una persona registrada con esa Cedula/RUC.");
                     return;
@@ -427,9 +429,9 @@ public class JEQualityFootwearSystem {
 
                 StaffMember newStaff;
                 if (role == 2) {
-                    newStaff = new Admin(empCode, baseSalary, id, name, phone, email, user, pass);
+                    newStaff = new Admin(employeeCode, baseSalary, id, name, phone, email, user, pass);
                 } else {
-                    newStaff = new Seller(empCode, baseSalary, id, name, phone, email, user, pass);
+                    newStaff = new Seller(employeeCode, baseSalary, id, name, phone, email, user, pass);
                 }
                 salesManagement.getStaffList().add(newStaff);
                 admin.manageUser(newStaff);
@@ -444,9 +446,9 @@ public class JEQualityFootwearSystem {
                     return;
                 }
                 System.out.print("Nuevo sueldo base en $ (Ingrese -1 para mantener $" + staffToEdit.getSalary() + "): ");
-                float newSal = readFloat();
-                if (newSal > 0) {
-                    staffToEdit.setSalary(newSal);
+                float newSalary = readFloat();
+                if (newSalary > 0) {
+                    staffToEdit.setSalary(newSalary);
                 }
                 System.out.print("Desea cambiar el telefono actual (" + staffToEdit.getPhoneNumber() + ")? (S/N): ");
                 if (scanner.nextLine().trim().equalsIgnoreCase("S")) {
@@ -466,12 +468,12 @@ public class JEQualityFootwearSystem {
                 break;
             case 4:
                 System.out.print("Ingrese el codigo del empleado que desea dar de baja: ");
-                int delCode = readInt();
-                if (delCode == admin.getEmployeeCode()) {
+                int deleteCode = readInt();
+                if (deleteCode == admin.getEmployeeCode()) {
                     System.out.println("[!] No puede eliminar su propio usuario administrador en sesion.");
                     return;
                 }
-                if (salesManagement.removeStaffByCode(delCode)) {
+                if (salesManagement.removeStaffByCode(deleteCode)) {
                     System.out.println("[OK] Empleado eliminado del sistema.");
                 } else {
                     System.out.println("[!] No se encontro un empleado con ese codigo.");
@@ -482,7 +484,6 @@ public class JEQualityFootwearSystem {
         }
     }
 
-    // ==================== GESTION DE USUARIOS Y CONTRASENAS POR ADMIN (US003 / RF-06 / RF-07) ====================
     private static void manageUsersAndPasswordsMenu(Admin admin) {
         System.out.println("\n--- GESTION DE CUENTAS DE USUARIOS Y RECUPERACION DE ACCESO ---");
         System.out.println("1. Ver lista completa de Usuarios / Clientes y Empleados (con sus credenciales)");
@@ -498,16 +499,14 @@ public class JEQualityFootwearSystem {
                 if (salesManagement.getCustomerDirectory().isEmpty()) {
                     System.out.println("  No hay clientes registrados.");
                 } else {
-                    for (Customer c : salesManagement.getCustomerDirectory()) {
-                        System.out.printf("  Cod: #%d | Cedula/RUC: %-13s | Nombre: %-20s | Tel: %-10s | Usuario: %-10s | Clave: %s\n",
-                                c.getCustomerCode(), c.getId(), c.getName(), c.getPhoneNumber(), c.getUsername(), c.getPassword());
+                    for (Customer customer : salesManagement.getCustomerDirectory()) {
+                        System.out.println("  Cod: #" + customer.getCustomerCode() + " | Cedula/RUC: " + customer.getId() + " | Nombre: " + customer.getName() + " | Tel: " + customer.getPhoneNumber() + " | Usuario: " + customer.getUsername() + " | Clave: " + customer.getPassword());
                     }
                 }
                 System.out.println("\n--- DIRECTORIO DE PERSONAL (ADMINISTRADORES Y VENDEDORES) ---");
-                for (StaffMember s : salesManagement.getStaffList()) {
-                    String roleName = (s instanceof Admin) ? "ADMIN" : "VENDEDOR";
-                    System.out.printf("  Cod: #%d | Rol: %-8s | Cedula/RUC: %-13s | Nombre: %-20s | Tel: %-10s | Usuario: %-10s | Clave: %s\n",
-                            s.getEmployeeCode(), roleName, s.getId(), s.getName(), s.getPhoneNumber(), s.getUsername(), s.getPassword());
+                for (StaffMember staff : salesManagement.getStaffList()) {
+                    String roleName = (staff instanceof Admin) ? "ADMIN" : "VENDEDOR";
+                    System.out.println("  Cod: #" + staff.getEmployeeCode() + " | Rol: " + roleName + " | Cedula/RUC: " + staff.getId() + " | Nombre: " + staff.getName() + " | Tel: " + staff.getPhoneNumber() + " | Usuario: " + staff.getUsername() + " | Clave: " + staff.getPassword());
                 }
                 break;
 
@@ -533,8 +532,8 @@ public class JEQualityFootwearSystem {
 
             case 3:
                 System.out.print("Ingrese la Cedula/RUC del cliente que desea modificar: ");
-                String custId = scanner.nextLine().trim();
-                Customer customerToEdit = salesManagement.findCustomerById(custId);
+                String customerId = scanner.nextLine().trim();
+                Customer customerToEdit = salesManagement.findCustomerById(customerId);
                 if (customerToEdit == null) {
                     System.out.println("[!] No se encontro un cliente con esa Cedula/RUC.");
                     return;
@@ -543,7 +542,7 @@ public class JEQualityFootwearSystem {
 
                 System.out.print("Desea corregir la Cedula/RUC? (S/N): ");
                 if (scanner.nextLine().trim().equalsIgnoreCase("S")) {
-                    String newId = readValidCedulaOrRuc("Nueva Cedula (10 digitos) o RUC (13 digitos): ");
+                    String newId = readValidIdOrTaxId("Nueva Cedula (10 digitos) o RUC (13 digitos): ");
                     customerToEdit.setId(newId);
                 }
 
@@ -577,14 +576,14 @@ public class JEQualityFootwearSystem {
 
             case 4:
                 System.out.print("Ingrese la Cedula/RUC del cliente cuya cuenta desea eliminar: ");
-                String delCustId = scanner.nextLine().trim();
-                Customer custToDelete = salesManagement.findCustomerById(delCustId);
-                if (custToDelete == null) {
+                String deleteCustomerId = scanner.nextLine().trim();
+                Customer customerToDelete = salesManagement.findCustomerById(deleteCustomerId);
+                if (customerToDelete == null) {
                     System.out.println("[!] Cliente no encontrado.");
                     return;
                 }
-                salesManagement.removeCustomerAccount(custToDelete);
-                System.out.println("[OK] Cuenta del cliente '" + custToDelete.getName() + "' eliminada del sistema.");
+                salesManagement.removeCustomerAccount(customerToDelete);
+                System.out.println("[OK] Cuenta del cliente '" + customerToDelete.getName() + "' eliminada del sistema.");
                 break;
 
             default:
@@ -592,13 +591,11 @@ public class JEQualityFootwearSystem {
         }
     }
 
-    // ==================== FLUJO REAL DE VENTA EN MOSTRADOR (US005, US006, US009) ====================
     private static void processCounterSaleMenu(Seller seller) {
         System.out.println("\n================ NUEVA VENTA EN MOSTRADOR (POS) ================");
         System.out.println("Vendedor en turno: " + seller.getName() + " (Codigo: " + seller.getEmployeeCode() + ")");
 
-        // 1. Identificar o registrar al cliente con validacion de Cedula/RUC y Telefono (RF-07)
-        String customerId = readValidCedulaOrRuc("Ingrese la Cedula (10 digitos) o RUC (13 digitos) del cliente: ");
+        String customerId = readValidIdOrTaxId("Ingrese la Cedula (10 digitos) o RUC (13 digitos) del cliente: ");
         Customer customer = salesManagement.findCustomerById(customerId);
 
         if (customer == null) {
@@ -616,101 +613,91 @@ public class JEQualityFootwearSystem {
             System.out.println("[CLIENTE IDENTIFICADO]: " + customer.getInfo());
         }
 
-        // 2. Seleccion de calzado y validacion de stock en tiempo real (RF-08)
-        List<Product> cart = new ArrayList<>();
+        List<Product> shoppingCart = new ArrayList<>();
         List<Integer> quantities = new ArrayList<>();
         boolean addingItems = true;
 
         while (addingItems) {
             printProductList(inventory.getProducts());
             System.out.print("Ingrese el codigo del calzado/accesorio solicitado por el cliente (o 'FIN' para cobrar): ");
-            String prodCode = scanner.nextLine().trim();
-            if (prodCode.equalsIgnoreCase("FIN")) {
+            String productCode = scanner.nextLine().trim();
+            if (productCode.equalsIgnoreCase("FIN")) {
                 break;
             }
 
-            Product selectedProduct = inventory.findProduct(prodCode);
+            Product selectedProduct = inventory.findProduct(productCode);
             if (selectedProduct == null) {
                 System.out.println("[!] Codigo de producto no encontrado. Intente nuevamente.");
                 continue;
             }
 
             if (inventory.checkStock(selectedProduct) <= 0) {
-                System.out.println("[BLOQUEADO - RF-08] El modelo '" + selectedProduct.getName() +
-                                   "' tiene 0 pares en stock. No se puede vender.");
+                System.out.println("[BLOQUEADO - RF-08] El modelo '" + selectedProduct.getName() + "' tiene 0 pares en stock. No se puede vender.");
                 continue;
             }
 
-            System.out.print("Cantidad de pares/unidades a llevar (Disponible en stock: " +
-                             selectedProduct.getCurrentStock() + "): ");
-            int qty = readInt();
+            System.out.print("Cantidad de pares/unidades a llevar (Disponible en stock: " + selectedProduct.getCurrentStock() + "): ");
+            int quantity = readInt();
 
-            if (qty <= 0) {
+            if (quantity <= 0) {
                 System.out.println("[!] La cantidad debe ser mayor a 0.");
                 continue;
             }
 
-            if (qty > selectedProduct.getCurrentStock()) {
-                System.out.println("[ALERTA DE STOCK - RF-08] Stock insuficiente. Solo existen " +
-                                   selectedProduct.getCurrentStock() + " unidades disponibles.");
+            if (quantity > selectedProduct.getCurrentStock()) {
+                System.out.println("[ALERTA DE STOCK - RF-08] Stock insuficiente. Solo existen " + selectedProduct.getCurrentStock() + " unidades disponibles.");
                 continue;
             }
 
-            cart.add(selectedProduct);
-            quantities.add(qty);
-            System.out.println("[AGREGADO AL CARRITO]: " + qty + "x " + selectedProduct.getName() +
-                               " ($" + String.format("%.2f", selectedProduct.getPrice() * qty) + ")");
+            shoppingCart.add(selectedProduct);
+            quantities.add(quantity);
+            System.out.println("[AGREGADO AL CARRITO]: " + quantity + "x " + selectedProduct.getName() + " ($" + (selectedProduct.getPrice() * quantity) + ")");
 
             System.out.print("El cliente desea llevar otro producto adicional? (S/N): ");
-            String more = scanner.nextLine().trim();
-            if (!more.equalsIgnoreCase("S")) {
+            String moreItems = scanner.nextLine().trim();
+            if (!moreItems.equalsIgnoreCase("S")) {
                 addingItems = false;
             }
         }
 
-        if (cart.isEmpty()) {
+        if (shoppingCart.isEmpty()) {
             System.out.println("[INFO] Venta cancelada: No se seleccionaron productos.");
             return;
         }
 
-        // 3. Calculo previo de Subtotal, IVA 15% y Total a Pagar
         float subtotal = 0.0f;
-        for (int i = 0; i < cart.size(); i++) {
-            subtotal += cart.get(i).getPrice() * quantities.get(i);
+        for (int i = 0; i < shoppingCart.size(); i++) {
+            subtotal += shoppingCart.get(i).getPrice() * quantities.get(i);
         }
         float vat = subtotal * Invoice.VAT_RATE;
         float grandTotal = subtotal + vat;
 
         System.out.println("\n--- RESUMEN DE LA ORDEN DE VENTA ---");
-        System.out.printf("Subtotal sin impuestos : $%.2f USD\n", subtotal);
-        System.out.printf("IVA (15%%)              : $%.2f USD\n", vat);
-        System.out.printf("TOTAL A PAGAR EN CAJA  : $%.2f USD\n", grandTotal);
+        System.out.println("Subtotal sin impuestos : $" + subtotal + " USD");
+        System.out.println("IVA (15%)              : $" + vat + " USD");
+        System.out.println("TOTAL A PAGAR EN CAJA  : $" + grandTotal + " USD");
 
-        // 4. Cobro en efectivo y calculo automatico del vuelto (US006 / RF-09)
         Payment payment = null;
         while (payment == null || !payment.processPayment()) {
             System.out.print("Ingrese el monto en efectivo entregado por el cliente ($ USD): ");
             float cashReceived = readFloat();
             payment = salesManagement.processCashPayment(cashReceived, grandTotal);
             if (!payment.processPayment()) {
-                System.out.printf("[ERROR DE PAGO] El efectivo recibido ($%.2f) es menor al total de la factura ($%.2f).\n",
-                        cashReceived, grandTotal);
+                System.out.println("[ERROR DE PAGO] El efectivo recibido ($" + cashReceived + ") es menor al total de la factura ($" + grandTotal + ").");
             }
         }
 
-        System.out.printf("\n>>> [CAJA REGISTRADORA] VUELTO EXACTO A ENTREGAR AL CLIENTE: $%.2f USD <<<\n",
-                payment.getChangeGiven());
+        System.out.println("\n>>> [CAJA REGISTRADORA] VUELTO EXACTO A ENTREGAR AL CLIENTE: $" + payment.getChangeGiven() + " USD <<<");
 
-        // 5. Preferencia de facturacion del cliente (US009 / RF-10)
         System.out.println("\nComo prefiere recibir su factura el cliente? (US009 / RF-10):");
         System.out.println("1. Factura Fisica (Impresa en papel en mostrador)");
         System.out.println("2. Factura Electronica (Archivo digital PDF enviado al correo)");
         System.out.println("3. Ambas (Impresa en mostrador + Electronica PDF al correo)");
         System.out.print("Seleccione la preferencia (1/2/3): ");
-        int invOption = readInt();
+        int invoiceOption = readInt();
 
         String channel;
-        switch (invOption) {
+        switch (invoiceOption) {
             case 1:
                 channel = "FISICA (IMPRESA EN CAJA)";
                 break;
@@ -722,31 +709,25 @@ public class JEQualityFootwearSystem {
                 break;
         }
 
-        // 6. Cierre de venta, descuento de stock, comision al vendedor y emision de factura
         Invoice generatedInvoice = salesManagement.registerSale(
-                customer, seller, cart, quantities, salesManagement.getSystemId(), payment, channel
+                customer, seller, shoppingCart, quantities, salesManagement.getSystemId(), payment, channel
         );
 
         System.out.println(salesManagement.generateReceipt(generatedInvoice));
         float earnedCommission = subtotal * salesManagement.getCommission();
-        System.out.printf("[COMISION GENERADA - US007] El vendedor %s gano +$%.2f USD de comision en esta venta.\n",
-                seller.getName(), earnedCommission);
+        System.out.println("[COMISION GENERADA - US007] El vendedor " + seller.getName() + " gano +$" + earnedCommission + " USD de comision en esta venta.");
     }
 
-    // ==================== REPORTES, COMISIONES Y CALENDARIO ====================
     private static void displayPayrollAndCommissions() {
         System.out.println("\n================ ROL DE PAGOS Y COMISIONES MENSUALES (US007 / RF-11) ================");
-        System.out.printf("Porcentaje de comision vigente sobre ventas: %.1f%%\n", salesManagement.getCommission() * 100);
+        System.out.println("Porcentaje de comision vigente sobre ventas: " + (salesManagement.getCommission() * 100) + "%");
         System.out.println("-------------------------------------------------------------------------------------");
         for (StaffMember staff : salesManagement.getStaffList()) {
             if (staff instanceof Seller) {
-                Seller s = (Seller) staff;
-                System.out.printf("Codigo: %d | Vendedor: %-18s | Ventas: %2d | Base: $%6.2f | Comisiones: $%6.2f | TOTAL A PAGAR: $%7.2f USD\n",
-                        s.getEmployeeCode(), s.getName(), s.getCompletedSalesCount(),
-                        s.getSalary(), s.getAccumulatedCommission(), s.calculateSalary());
+                Seller seller = (Seller) staff;
+                System.out.println("Codigo: " + seller.getEmployeeCode() + " | Vendedor: " + seller.getName() + " | Ventas: " + seller.getCompletedSalesCount() + " | Base: $" + seller.getSalary() + " | Comisiones: $" + seller.getAccumulatedCommission() + " | TOTAL A PAGAR: $" + seller.calculateSalary() + " USD");
             } else if (staff instanceof Admin) {
-                System.out.printf("Codigo: %d | Admin   : %-18s | Sueldo Fijo Mensual: $%7.2f USD\n",
-                        staff.getEmployeeCode(), staff.getName(), staff.calculateSalary());
+                System.out.println("Codigo: " + staff.getEmployeeCode() + " | Admin   : " + staff.getName() + " | Sueldo Fijo Mensual: $" + staff.calculateSalary() + " USD");
             }
         }
         System.out.println("-------------------------------------------------------------------------------------");
@@ -754,23 +735,21 @@ public class JEQualityFootwearSystem {
 
     private static void displaySalesAndBestSellersReport() {
         System.out.println("\n================ REGISTRO HISTORICO DE VENTAS Y CAJA (US005) ================");
-        System.out.printf("Saldo Contable Actual en Caja Registradora: $%.2f USD\n",
-                salesManagement.getCashRegisterBalance());
+        System.out.println("Saldo Contable Actual en Caja Registradora: $" + salesManagement.getCashRegisterBalance() + " USD");
         if (salesManagement.getSalesRegistry().isEmpty()) {
             System.out.println("Aun no se han registrado ventas en esta sesion.");
         } else {
-            for (Invoice inv : salesManagement.getSalesRegistry()) {
-                System.out.println("  -> " + inv.toString());
+            for (Invoice invoice : salesManagement.getSalesRegistry()) {
+                System.out.println("  -> " + invoice.toString());
             }
         }
 
         System.out.println("\n================ REPORTE DE PRODUCTOS MAS VENDIDOS (RF-04) ================");
         List<Product> ranking = inventory.getBestSellingProducts();
-        int pos = 1;
-        for (Product p : ranking) {
-            System.out.printf("%d. %-26s (Cod: %s) | Unidades Vendidas: %3d | Ingresos Generados: $%7.2f USD | Stock Restante: %3d\n",
-                    pos++, p.getName(), p.getProductId(), p.getUnitsSold(),
-                    (p.getUnitsSold() * p.getPrice()), p.getCurrentStock());
+        int position = 1;
+        for (Product product : ranking) {
+            System.out.println(position + ". " + product.getName() + " (Cod: " + product.getProductId() + ") | Unidades Vendidas: " + product.getUnitsSold() + " | Ingresos Generados: $" + (product.getUnitsSold() * product.getPrice()) + " USD | Stock Restante: " + product.getCurrentStock());
+            position++;
         }
     }
 
@@ -778,15 +757,15 @@ public class JEQualityFootwearSystem {
         System.out.println("\n--- MI DESEMPENO Y COMPENSACION MENSUAL (US007 / RF-11) ---");
         System.out.println("Vendedor                 : " + seller.getName() + " (ID: " + seller.getEmployeeCode() + ")");
         System.out.println("Ventas Cerradas          : " + seller.getCompletedSalesCount());
-        System.out.printf("Sueldo Base Mensual      : $%.2f USD\n", seller.getSalary());
-        System.out.printf("Comisiones Acumuladas    : $%.2f USD\n", seller.getAccumulatedCommission());
-        System.out.printf("SUELDO NETO A RECIBIR    : $%.2f USD\n", seller.calculateSalary());
+        System.out.println("Sueldo Base Mensual      : $" + seller.getSalary() + " USD");
+        System.out.println("Comisiones Acumuladas    : $" + seller.getAccumulatedCommission() + " USD");
+        System.out.println("SUELDO NETO A RECIBIR    : $" + seller.calculateSalary() + " USD");
 
         System.out.println("\n--- MIS VENTAS REGISTRADAS (US005) ---");
         boolean hasSales = false;
-        for (Invoice inv : salesManagement.getSalesRegistry()) {
-            if (inv.getSeller().getEmployeeCode() == seller.getEmployeeCode()) {
-                System.out.println("  -> " + inv);
+        for (Invoice invoice : salesManagement.getSalesRegistry()) {
+            if (invoice.getSeller().getEmployeeCode() == seller.getEmployeeCode()) {
+                System.out.println("  -> " + invoice.toString());
                 hasSales = true;
             }
         }
@@ -800,8 +779,8 @@ public class JEQualityFootwearSystem {
         if (customer.getPurchaseHistory().isEmpty()) {
             System.out.println("Aun no registra facturas asociadas a su cuenta.");
         } else {
-            for (Invoice inv : customer.getPurchaseHistory()) {
-                System.out.println(inv.getDetails());
+            for (Invoice invoice : customer.getPurchaseHistory()) {
+                System.out.println(invoice.getDetails());
             }
         }
     }
@@ -811,16 +790,16 @@ public class JEQualityFootwearSystem {
         System.out.print("Rango de fechas (ej. 01 al 15 de Noviembre): ");
         String dates = scanner.nextLine().trim();
         System.out.print("Descripcion de la oferta (ej. 20% de descuento en calzado formal): ");
-        String desc = scanner.nextLine().trim();
+        String description = scanner.nextLine().trim();
         System.out.print("Modelos participantes: ");
         String models = scanner.nextLine().trim();
-        promotionCalendar.addPromotion(dates, desc, models);
+        promotionCalendar.addPromotion(dates, description, models);
         System.out.println("[OK] Promocion agregada exitosamente al calendario.");
     }
 
     private static void registerNewCustomerSelfService() {
         System.out.println("\n--- REGISTRO INDEPENDIENTE DE CUENTA DE USUARIO / CLIENTE (US003 / RF-07) ---");
-        String id = readValidCedulaOrRuc("Cedula (10 digitos) o RUC (13 digitos): ");
+        String id = readValidIdOrTaxId("Cedula (10 digitos) o RUC (13 digitos): ");
         if (salesManagement.findPersonByIdOrUsername(id) != null) {
             System.out.println("[ERROR] Ya existe un usuario registrado con esa Cedula/RUC.");
             return;
@@ -845,7 +824,6 @@ public class JEQualityFootwearSystem {
         System.out.println("[OK] Cuenta creada exitosamente. Ahora puede iniciar sesion con el usuario: " + username);
     }
 
-    // ==================== DATOS SEMILLA PARA PRUEBA INMEDIATA ====================
     private static void seedInitialData() {
         Admin admin = new Admin(100, 850.00f, "1710000001", "Angel Bonilla (Admin)", "0991112223",
                 "angel.bonilla@espe.edu.ec", "admin", "1234");
@@ -880,8 +858,7 @@ public class JEQualityFootwearSystem {
         promotionCalendar.addPromotion("Fines de semana", "2x1 en correas y marroquineria", "Cinturon Cuero Legitimo");
     }
 
-    // ==================== LECTURA Y VALIDACION DE DATOS POR CONSOLA ====================
-    private static String readValidCedulaOrRuc(String promptMessage) {
+    private static String readValidIdOrTaxId(String promptMessage) {
         while (true) {
             System.out.print(promptMessage);
             String input = scanner.nextLine().trim();
@@ -890,10 +867,10 @@ public class JEQualityFootwearSystem {
                 continue;
             }
             if (input.length() == 10) {
-                return input; // Cedula valida de 10 digitos
+                return input;
             } else if (input.length() == 13) {
                 if (input.endsWith("001")) {
-                    return input; // RUC valido de 13 digitos
+                    return input;
                 } else {
                     System.out.println("[ERROR DE VALIDACION] Un RUC de 13 digitos debe terminar en '001' (ej. 1712345678001).");
                 }
@@ -919,7 +896,7 @@ public class JEQualityFootwearSystem {
             try {
                 String line = scanner.nextLine().trim();
                 return Integer.parseInt(line);
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException exception) {
                 System.out.print("[!] Ingrese un numero entero valido: ");
             }
         }
@@ -930,7 +907,7 @@ public class JEQualityFootwearSystem {
             try {
                 String line = scanner.nextLine().trim().replace(",", ".");
                 return Float.parseFloat(line);
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException exception) {
                 System.out.print("[!] Ingrese un valor numerico valido (ej. 45.50): ");
             }
         }

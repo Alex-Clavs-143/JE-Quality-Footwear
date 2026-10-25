@@ -1,8 +1,8 @@
 package ec.edu.espe.JEQualityFootwear.model;
 
 public class Category {
-    private String name;   // Ej: Formal, Deportivo, Botas, Casual, Marroquinería
-    private String gender; // Hombres, Mujeres, Niños, Accesorios
+    private String name;
+    private String gender;
 
     public Category(String name, String gender) {
         this.name = name;

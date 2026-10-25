@@ -19,7 +19,6 @@ public class Admin extends StaffMember {
 
     @Override
     public String toString() {
-        return "Admin{" + "employeeCode=" + getEmployeeCode() + ", nombre='" + getName() +
-               "', sueldo=$" + String.format("%.2f", getSalary()) + ", " + super.getInfo() + '}';
+        return "Admin{employeeCode=" + getEmployeeCode() + ", nombre='" + getName() + "', sueldo=$" + getSalary() + ", " + super.getInfo() + "}";
     }
 }
