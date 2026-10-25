@@ -6,7 +6,7 @@ import java.util.List;
 
 public class SalesManagement {
     private int systemId;
-    private float commission; // Porcentaje de comision por venta (ej. 0.05f = 5%)
+    private float commission; 
     private float sellerSalary;
     private float cashRegisterBalance;
     private int invoiceSequence;
@@ -18,7 +18,7 @@ public class SalesManagement {
         this.systemId = systemId;
         this.commission = commission;
         this.sellerSalary = sellerSalary;
-        this.cashRegisterBalance = 200.00f; // Fondo inicial de caja chica ($)
+        this.cashRegisterBalance = 200.00f; 
         this.invoiceSequence = 1;
         this.salesRegistry = new ArrayList<>();
         this.staffList = new ArrayList<>();
@@ -32,22 +32,22 @@ public class SalesManagement {
         invoice.setCashTendered(payment.getAmountReceived());
         invoice.setChangeDue(payment.getChangeGiven());
 
-        // Descuento automatico de stock en tiempo real (RF-03)
+
         for (int i = 0; i < carrito.size(); i++) {
             Product product = carrito.get(i);
             int qty = quantities.get(i);
             product.updateStock(-qty);
         }
 
-        // Contabilidad de caja registradora (US006 / RF-09)
+
         this.cashRegisterBalance += invoice.getTotalAmount();
 
-        // Registro de comision para el vendedor (US007 / RF-11)
+   
         float earnedCommission = invoice.getSubtotal() * this.commission;
         seller.addCommission(earnedCommission);
         seller.sell();
 
-        // Vinculacion con cliente e historial general (US005 / RF-08)
+
         customer.getInvoice(invoice);
         this.salesRegistry.add(invoice);
 

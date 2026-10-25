@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Invoice {
-    public static final float VAT_RATE = 0.15f; // 15% IVA legal en Ecuador
+    public static final float VAT_RATE = 0.15f; 
     public static final String STORE_RUC = "1790012345001";
     public static final String STORE_NAME = "CALZADO JORGE ENRIQUEZ - JE QUALITY FOOTWEAR";
 
@@ -20,7 +20,7 @@ public class Invoice {
     private float totalAmount;
     private float cashTendered;
     private float changeDue;
-    private String issuanceChannel; // "FISICA (IMPRESA EN CAJA)" o "ELECTRONICA (PDF VIA EMAIL)"
+    private String issuanceChannel; 
 
     public Invoice(String invoiceNumber, Date date, Customer customer, Seller seller,
                    List<Product> purchasedItems, List<Integer> quantities, String issuanceChannel) {

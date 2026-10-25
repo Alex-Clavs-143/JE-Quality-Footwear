@@ -1,7 +1,7 @@
 package ec.edu.espe.JEQualityFootwear.model;
 
 public class Person {
-    private String id; // Cédula o RUC
+    private String id; 
     private String name;
     private String phoneNumber;
     private String email;
