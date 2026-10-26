@@ -27,7 +27,8 @@ public class SalesManagement {
 
     public Invoice registerSale(Customer customer, Seller seller, List<Product> shoppingCart,
                                 List<Integer> quantities, int systemId, Payment payment, String issuanceChannel) {
-        String sequenceNumber = "001-001-00000" + (invoiceSequence++);
+            this.invoiceSequence = this.salesRegistry.size() + 1;
+        String sequenceNumber = "001-001-00000" + this.invoiceSequence;
         Invoice invoice = new Invoice(sequenceNumber, new Date(), customer, seller, shoppingCart, quantities, issuanceChannel);
         invoice.setCashTendered(payment.getAmountReceived());
         invoice.setChangeDue(payment.getChangeGiven());

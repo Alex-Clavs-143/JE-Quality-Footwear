@@ -5,6 +5,7 @@ import ec.edu.espe.JEQualityFootwear.model.Category;
 import ec.edu.espe.JEQualityFootwear.model.Customer;
 import ec.edu.espe.JEQualityFootwear.model.Inventory;
 import ec.edu.espe.JEQualityFootwear.model.Invoice;
+import ec.edu.espe.JEQualityFootwear.model.JsonDataManager;
 import ec.edu.espe.JEQualityFootwear.model.Payment;
 import ec.edu.espe.JEQualityFootwear.model.Person;
 import ec.edu.espe.JEQualityFootwear.model.Product;
@@ -21,27 +22,21 @@ public class JEQualityFootwearSystem {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Inventory inventory = new Inventory();
     private static final SalesManagement salesManagement = new SalesManagement(101, 0.05f, 460.0f);
-    private static final PromotionCalendar promotionCalendar = new PromotionCalendar(
-            "Matriz Calzado Jorge Enriquez",
-            "Av. General Enriquez y Abdon Calderon, Sangolqui - Ecuador",
-            "0998765432",
-            8, 20
-    );
+    private static final PromotionCalendar promotionCalendar = new PromotionCalendar("", "", "", 8, 20);
 
     public static void main(String[] args) {
-        seedInitialData();
+        if (JsonDataManager.loadData(inventory, salesManagement, promotionCalendar)) {
+            System.out.println("[SISTEMA] Datos cargados desde 'jequality_data.json' correctamente.");
+        } else {
+            System.out.println("[ERROR] No se encontro 'jequality_data.json' en la carpeta del proyecto.");
+        }
+
         boolean exitProgram = false;
 
         while (!exitProgram) {
             System.out.println("\n======================================================================");
             System.out.println("   SISTEMA DE GESTION DE VENTAS E INVENTARIO - CALZADO JORGE ENRIQUEZ ");
             System.out.println("======================================================================");
-            System.out.println("Credenciales de prueba listas para usar:");
-            System.out.println("  -> Administrador : usuario = admin    | clave = 1234");
-            System.out.println("  -> Vendedor 1    : usuario = henry    | clave = 1234");
-            System.out.println("  -> Vendedor 2    : usuario = david    | clave = 1234");
-            System.out.println("  -> Cliente       : usuario = cliente1 | clave = 1234");
-            System.out.println("----------------------------------------------------------------------");
             System.out.println("1. Iniciar Sesion (Administrador / Vendedor / Cliente)");
             System.out.println("2. Crear Cuenta de Usuario / Cliente Independientemente");
             System.out.println("3. Ver Calendario de Promociones y Estado de Tienda en Vivo");
@@ -60,13 +55,18 @@ public class JEQualityFootwearSystem {
                     System.out.println(promotionCalendar.getStoreStatusReport());
                     break;
                 case 0:
-                    System.out.println("Cerrando el sistema de Calzado Jorge Enriquez. Hasta pronto!");
+                    saveCurrentState();
+                    System.out.println("Datos guardados en 'jequality_data.json'. Cerrando el sistema. Hasta pronto!");
                     exitProgram = true;
                     break;
                 default:
                     System.out.println("[!] Opcion no valida. Intente nuevamente.");
             }
         }
+    }
+
+    private static void saveCurrentState() {
+        JsonDataManager.saveData(inventory, salesManagement, promotionCalendar);
     }
 
     private static void handleLogin() {
@@ -159,7 +159,7 @@ public class JEQualityFootwearSystem {
             System.out.println("1. Ver catalogo y filtrar por Hombres, Mujeres, Ninos, Accesorios");
             System.out.println("2. Registrar nueva Venta, Cobro en Efectivo y Factura");
             System.out.println("3. Ver mis ventas realizadas y mis comisiones acumuladas");
-            System.out.println("0. Cerrar sesion)");
+            System.out.println("0. Cerrar sesion");
             System.out.print("Seleccione una opcion: ");
 
             int option = readInt();
@@ -214,6 +214,7 @@ public class JEQualityFootwearSystem {
                     String confirm = scanner.nextLine().trim();
                     if (confirm.equalsIgnoreCase("S")) {
                         salesManagement.removeCustomerAccount(customer);
+                        saveCurrentState();
                         System.out.println("[OK] Su cuenta ha sido eliminada exitosamente del sistema.");
                         logout = true;
                     }
@@ -292,7 +293,7 @@ public class JEQualityFootwearSystem {
     }
 
     private static void addProductMenu() {
-        System.out.println("\n--- REGISTRAR NUEVO PRODUCTO EN INVENTARIO  ---");
+        System.out.println("\n--- REGISTRAR NUEVO PRODUCTO EN INVENTARIO ---");
         System.out.print("Codigo del producto (ej. ZAP-007): ");
         String code = scanner.nextLine().trim().toUpperCase();
         if (inventory.findProduct(code) != null) {
@@ -317,6 +318,7 @@ public class JEQualityFootwearSystem {
         Category category = new Category(subCategory, gender);
         Product newProduct = new Product(code, name, price, stock, category, color, size);
         inventory.addProduct(newProduct);
+        saveCurrentState();
         System.out.println("[OK] Producto registrado exitosamente en el catalogo:");
         System.out.println(newProduct.toString());
     }
@@ -346,6 +348,7 @@ public class JEQualityFootwearSystem {
         if (newStock >= 0) {
             product.setCurrentStock(newStock);
         }
+        saveCurrentState();
         System.out.println("[OK] Producto actualizado correctamente: " + product.toString());
     }
 
@@ -354,6 +357,7 @@ public class JEQualityFootwearSystem {
         System.out.print("Ingrese el codigo del producto que desea eliminar del catalogo: ");
         String code = scanner.nextLine().trim();
         if (inventory.removeProduct(code)) {
+            saveCurrentState();
             System.out.println("[OK] Producto eliminado del inventario activo.");
         } else {
             System.out.println("[!] No se encontro un producto con ese codigo.");
@@ -374,6 +378,7 @@ public class JEQualityFootwearSystem {
         System.out.print("Ingrese la cantidad real verificada fisicamente: ");
         int realStock = readInt();
         if (inventory.performAudit(code, realStock)) {
+            saveCurrentState();
             System.out.println("[OK] Auditoria registrada en fecha: " + inventory.getLastAuditDate());
             System.out.println("Nuevo balance de stock para " + product.getName() + ": " + product.getCurrentStock());
         } else {
@@ -435,6 +440,7 @@ public class JEQualityFootwearSystem {
                 }
                 salesManagement.getStaffList().add(newStaff);
                 admin.manageUser(newStaff);
+                saveCurrentState();
                 System.out.println("[OK] Empleado registrado exitosamente.");
                 break;
             case 3:
@@ -464,6 +470,7 @@ public class JEQualityFootwearSystem {
                     }
                 }
                 admin.manageUser(staffToEdit);
+                saveCurrentState();
                 System.out.println("[OK] Datos del empleado actualizados.");
                 break;
             case 4:
@@ -474,6 +481,7 @@ public class JEQualityFootwearSystem {
                     return;
                 }
                 if (salesManagement.removeStaffByCode(deleteCode)) {
+                    saveCurrentState();
                     System.out.println("[OK] Empleado eliminado del sistema.");
                 } else {
                     System.out.println("[!] No se encontro un empleado con ese codigo.");
@@ -527,6 +535,7 @@ public class JEQualityFootwearSystem {
                 }
                 targetPerson.setPassword(newPassword);
                 admin.manageUser(targetPerson);
+                saveCurrentState();
                 System.out.println("[OK] Contrasena actualizada exitosamente para el usuario: " + targetPerson.getUsername());
                 break;
 
@@ -571,6 +580,7 @@ public class JEQualityFootwearSystem {
                 }
 
                 admin.manageUser(customerToEdit);
+                saveCurrentState();
                 System.out.println("[OK] Datos del cliente actualizados correctamente.");
                 break;
 
@@ -583,6 +593,7 @@ public class JEQualityFootwearSystem {
                     return;
                 }
                 salesManagement.removeCustomerAccount(customerToDelete);
+                saveCurrentState();
                 System.out.println("[OK] Cuenta del cliente '" + customerToDelete.getName() + "' eliminada del sistema.");
                 break;
 
@@ -713,6 +724,8 @@ public class JEQualityFootwearSystem {
                 customer, seller, shoppingCart, quantities, salesManagement.getSystemId(), payment, channel
         );
 
+        saveCurrentState();
+
         System.out.println(salesManagement.generateReceipt(generatedInvoice));
         float earnedCommission = subtotal * salesManagement.getCommission();
         System.out.println("[COMISION GENERADA] El vendedor " + seller.getName() + " gano +$" + earnedCommission + " USD de comision en esta venta.");
@@ -737,7 +750,7 @@ public class JEQualityFootwearSystem {
         System.out.println("\n================ REGISTRO HISTORICO DE VENTAS Y CAJA ================");
         System.out.println("Saldo Contable Actual en Caja Registradora: $" + salesManagement.getCashRegisterBalance() + " USD");
         if (salesManagement.getSalesRegistry().isEmpty()) {
-            System.out.println("Aun no se han registrado ventas en esta sesion.");
+            System.out.println("Aun no se han registrado ventas.");
         } else {
             for (Invoice invoice : salesManagement.getSalesRegistry()) {
                 System.out.println("  -> " + invoice.toString());
@@ -770,7 +783,7 @@ public class JEQualityFootwearSystem {
             }
         }
         if (!hasSales) {
-            System.out.println("  Aun no has registrado ventas en este turno.");
+            System.out.println("  Aun no has registrado ventas.");
         }
     }
 
@@ -794,6 +807,7 @@ public class JEQualityFootwearSystem {
         System.out.print("Modelos participantes: ");
         String models = scanner.nextLine().trim();
         promotionCalendar.addPromotion(dates, description, models);
+        saveCurrentState();
         System.out.println("[OK] Promocion agregada exitosamente al calendario.");
     }
 
@@ -821,41 +835,8 @@ public class JEQualityFootwearSystem {
         int code = salesManagement.getCustomerDirectory().size() + 1001;
         Customer newCustomer = new Customer(code, id, name, phone, email, username, password);
         salesManagement.getCustomerDirectory().add(newCustomer);
+        saveCurrentState();
         System.out.println("[OK] Cuenta creada exitosamente. Ahora puede iniciar sesion con el usuario: " + username);
-    }
-
-    private static void seedInitialData() {
-        Admin admin = new Admin(100, 850.00f, "1710000001", "Angel Bonilla (Admin)", "0991112223",
-                "angel.bonilla@espe.edu.ec", "admin", "1234");
-        Seller seller1 = new Seller(201, 460.00f, "1720000002", "Henry Chalcualan", "0993334445",
-                "henry.chalcualan@espe.edu.ec", "henry", "1234");
-        Seller seller2 = new Seller(202, 460.00f, "1730000003", "David Clavon", "0995556667",
-                "david.clavon@espe.edu.ec", "david", "1234");
-
-        salesManagement.getStaffList().add(admin);
-        salesManagement.getStaffList().add(seller1);
-        salesManagement.getStaffList().add(seller2);
-
-        Customer customer1 = new Customer(1001, "1712345678", "Carlos Andrade", "0987654321",
-                "carlos.andrade@gmail.com", "cliente1", "1234");
-        salesManagement.getCustomerDirectory().add(customer1);
-
-        Category menFormal = new Category("Calzado Formal", "Hombres");
-        Category menSport = new Category("Calzado Deportivo", "Hombres");
-        Category womenBoots = new Category("Botas de Cuero", "Mujeres");
-        Category womenCasual = new Category("Calzado Casual", "Mujeres");
-        Category kidsSchool = new Category("Calzado Escolar", "Ninos");
-        Category leatherAcc = new Category("Marroquineria", "Accesorios");
-
-        inventory.addProduct(new Product("ZAP-001", "Oxford Clasico Cuero", 65.00f, 12, menFormal, "Negro", 41));
-        inventory.addProduct(new Product("ZAP-002", "Runner Pro Ligero", 52.50f, 8, menSport, "Azul", 42));
-        inventory.addProduct(new Product("ZAP-003", "Botin Elegante Tacon", 78.00f, 6, womenBoots, "Cafe", 37));
-        inventory.addProduct(new Product("ZAP-004", "Mocasin Confort Dama", 48.00f, 10, womenCasual, "Beige", 38));
-        inventory.addProduct(new Product("ZAP-005", "Zapato Escolar Reforzado", 34.00f, 15, kidsSchool, "Negro", 33));
-        inventory.addProduct(new Product("ACC-001", "Cinturon Cuero Legitimo", 18.50f, 20, leatherAcc, "Cafe", 0));
-
-        promotionCalendar.addPromotion("01 al 10 de cada mes", "15% de descuento en linea escolar", "Zapato Escolar Reforzado");
-        promotionCalendar.addPromotion("Fines de semana", "2x1 en correas y marroquineria", "Cinturon Cuero Legitimo");
     }
 
     private static String readValidIdOrTaxId(String promptMessage) {

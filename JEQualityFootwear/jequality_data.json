@@ -1,0 +1,208 @@
+{
+  "systemId": 101,
+  "commission": 0.05,
+  "sellerSalary": 460.0,
+  "cashRegisterBalance": 274.75,
+  "invoiceSequence": 2,
+  "lastAuditDate": "25/10/2026 19:00:00",
+  "admins": [
+    {
+      "employeeCode": 100,
+      "salary": 850.0,
+      "id": "1710000001",
+      "name": "Angel Bonilla (Admin)",
+      "phoneNumber": "0991112223",
+      "email": "angel.bonilla@espe.edu.ec",
+      "username": "admin",
+      "password": "1234"
+    }
+  ],
+  "sellers": [
+    {
+      "accumulatedCommission": 3.25,
+      "completedSalesCount": 1,
+      "employeeCode": 201,
+      "salary": 460.0,
+      "id": "1720000002",
+      "name": "Henry Chalcualan",
+      "phoneNumber": "0993334445",
+      "email": "henry.chalcualan@espe.edu.ec",
+      "username": "henry",
+      "password": "1234"
+    },
+    {
+      "accumulatedCommission": 0.0,
+      "completedSalesCount": 0,
+      "employeeCode": 202,
+      "salary": 460.0,
+      "id": "1730000003",
+      "name": "David Clavon",
+      "phoneNumber": "0995556667",
+      "email": "david.clavon@espe.edu.ec",
+      "username": "david",
+      "password": "1234"
+    }
+  ],
+  "customers": [
+    {
+      "customerCode": 1001,
+      "id": "1712345678",
+      "name": "Carlos Andrade",
+      "phoneNumber": "0987654321",
+      "email": "carlos.andrade@gmail.com",
+      "username": "cliente1",
+      "password": "1234"
+    },
+    {
+      "customerCode": 1002,
+      "id": "1717171717",
+      "name": "Pauline Caoronel",
+      "phoneNumber": "0998765432",
+      "email": "sd",
+      "username": "cli1002",
+      "password": "1234"
+    }
+  ],
+  "products": [
+    {
+      "productId": "ZAP-001",
+      "name": "Oxford Clasico Cuero",
+      "price": 65.0,
+      "currentStock": 11,
+      "category": {
+        "name": "Calzado Formal",
+        "gender": "Hombres"
+      },
+      "color": "Negro",
+      "size": 41,
+      "unitsSold": 1
+    },
+    {
+      "productId": "ZAP-002",
+      "name": "Runner Pro Ligero",
+      "price": 52.5,
+      "currentStock": 8,
+      "category": {
+        "name": "Calzado Deportivo",
+        "gender": "Hombres"
+      },
+      "color": "Azul",
+      "size": 42,
+      "unitsSold": 0
+    },
+    {
+      "productId": "ZAP-003",
+      "name": "Botin Elegante Tacon",
+      "price": 78.0,
+      "currentStock": 6,
+      "category": {
+        "name": "Botas de Cuero",
+        "gender": "Mujeres"
+      },
+      "color": "Cafe",
+      "size": 37,
+      "unitsSold": 0
+    },
+    {
+      "productId": "ZAP-004",
+      "name": "Mocasin Confort Dama",
+      "price": 48.0,
+      "currentStock": 10,
+      "category": {
+        "name": "Calzado Casual",
+        "gender": "Mujeres"
+      },
+      "color": "Beige",
+      "size": 38,
+      "unitsSold": 0
+    },
+    {
+      "productId": "ZAP-005",
+      "name": "Zapato Escolar Reforzado",
+      "price": 34.0,
+      "currentStock": 15,
+      "category": {
+        "name": "Calzado Escolar",
+        "gender": "Ninos"
+      },
+      "color": "Negro",
+      "size": 33,
+      "unitsSold": 0
+    },
+    {
+      "productId": "ACC-001",
+      "name": "Cinturon Cuero Legitimo",
+      "price": 18.5,
+      "currentStock": 20,
+      "category": {
+        "name": "Marroquineria",
+        "gender": "Accesorios"
+      },
+      "color": "Cafe",
+      "size": 0,
+      "unitsSold": 0
+    }
+  ],
+  "salesRegistry": [
+    {
+      "invoiceNumber": "001-001-000001",
+      "date": "25/10/2026 19:31:34",
+      "customer": {
+        "customerCode": 1002,
+        "id": "1717171717",
+        "name": "Pauline Caoronel",
+        "phoneNumber": "0998765432",
+        "email": "sd",
+        "username": "cli1002",
+        "password": "1234"
+      },
+      "seller": {
+        "accumulatedCommission": 3.25,
+        "completedSalesCount": 1,
+        "employeeCode": 201,
+        "salary": 460.0,
+        "id": "1720000002",
+        "name": "Henry Chalcualan",
+        "phoneNumber": "0993334445",
+        "email": "henry.chalcualan@espe.edu.ec",
+        "username": "henry",
+        "password": "1234"
+      },
+      "purchasedItems": [
+        {
+          "productId": "ZAP-001",
+          "name": "Oxford Clasico Cuero",
+          "price": 65.0,
+          "currentStock": 11,
+          "category": {
+            "name": "Calzado Formal",
+            "gender": "Hombres"
+          },
+          "color": "Negro",
+          "size": 41,
+          "unitsSold": 1
+        }
+      ],
+      "quantities": [
+        1
+      ],
+      "subtotal": 65.0,
+      "vatAmount": 9.75,
+      "totalAmount": 74.75,
+      "cashTendered": 100.0,
+      "changeDue": 25.25,
+      "issuanceChannel": "FISICA IMPRESA + ELECTRONICA (PDF VIA EMAIL)"
+    }
+  ],
+  "promotionCalendar": {
+    "branchName": "Matriz Calzado Jorge Enriquez",
+    "branchAddress": "Av. General Enriquez y Abdon Calderon, Sangolqui - Ecuador",
+    "contactPhone": "0998765432",
+    "openingHour": 8,
+    "closingHour": 20,
+    "scheduledPromotions": [
+      "Fechas: [01 al 10 de cada mes] | Promo: 15% de descuento en linea escolar | Modelos: Zapato Escolar Reforzado",
+      "Fechas: [Fines de semana] | Promo: 2x1 en correas y marroquineria | Modelos: Cinturon Cuero Legitimo"
+    ]
+  }
+}

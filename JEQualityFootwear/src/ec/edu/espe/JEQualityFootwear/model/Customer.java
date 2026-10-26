@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Customer extends Person {
     private int customerCode;
-    private List<Invoice> purchaseHistory;
+    private transient List<Invoice> purchaseHistory;
 
     public Customer(int customerCode, String id, String name, String phoneNumber, String email, String username, String password) {
         super(id, name, phoneNumber, email, username, password);
